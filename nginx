@@ -1,8 +1,12 @@
 启动nginx
 sudo /usr/local/nginx/sbin/nginx
 重启nginx
-sbin/nginx -s reload
+/usr/local/nginx/sbin/nginx -s reload
 停止nginx
 ./nginx -s stop
 查看nginx运行进程
 ps aux | grep nginx
+
+
+启动celery
+celery worker -A C1.tasks --loglevel=info
