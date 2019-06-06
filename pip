@@ -1,0 +1,4 @@
+pip list --outdated #列出所有过期的库
+
+对于列出的过期库，pip也提供了更新的命令
+pip install --upgrade 库名 
