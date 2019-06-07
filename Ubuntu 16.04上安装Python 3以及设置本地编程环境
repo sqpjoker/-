@@ -1,0 +1,62 @@
+1.更新Ubuntu软件下载地址
+http://wiki.ubuntu.org.cn/源列表
+
+2.备份Ubuntu默认的源地址
+lin@ubuntu:~$ sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+
+3.更新服务器列表
+ lin@ubuntu:~$ sudo gedit /etc/apt/sources.list 将1中复制的内容粘贴到此文件中
+
+4.Ubuntu 16.04预装了Python 3和Python 2。 为确保是最新版本，用apt-get更新和升级系统：
+lin@ubuntu:~$ sudo apt-get update
+lin@ubuntu:~$ sudo apt-get -y upgrade
+
+-y标志将确认用户同意安装所有项目，但根据Linux版本，用户也可能需要确认系统更新和升级的其他提示。
+5.安装pip以管理Python的软件包：
+lin@ubuntu:~$ sudo apt-get install -y python3-pip
+
+pip3的使用方法   pip3 install package_name
+虚拟环境
+1.安装virtualenvwrapper
+lin@ubuntu:~$ sudo apt-get install python-virtualenv
+lin@ubuntu:~$ pip3 install virtualenvwrapper  或者 sudo easy_install virtualenvwrapper  (使用easy_install需要先安装sudo apt-get install python-setuptools python-dev build-essential)
+
+2.创建一个文件夹，用于存放所有的虚拟环境
+lin@ubuntu:~$ mkdir $HOME/.virtualenvs
+
+3.设置环境变量，把下面两行添加到~/.bashrc文件中
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh (后面的路径为which virtualenvwrapper.sh的结果)
+
+运行
+lin@ubuntu:~$ source ~/.bashrc
+
+然后就可以使用virtualenvwrapper了
+3.创建虚拟环境：mkvirtualenv [虚拟环境名称]
+lin@ubuntu:~$ mkvirtualenv env1  创建虚拟环境env1
+lin@ubuntu:~$ mkvirtualenv env2  创建虚拟环境env2
+
+注意：mkvirtualenv可以使用virtualenv的参数，比如--python来指定python版本。创建虚拟环境后，会自动切换到此虚拟环境里。虚拟环境目录都在WORKON_HOME里。
+lin@ubuntu:~$ mkvirtualenv python3-code-env --python=python3.5
+
+4.列出虚拟环境：lsvirtualenv -b  或者 workon
+(env2) lin@ubuntu:~$ lsvirtualenv -b 
+
+5.切换虚拟环境：workon [虚拟环境名称]
+(env2) lin@ubuntu:~$ workon env1
+
+6.查看环境里安装了哪些包：
+pip list
+pip freeze
+lssitepackages
+
+7.进入当前环境的目录：cdvirtualenv [子目录名]
+8.进入当前环境的site-packages目录：cdsitepackages [子目录名]
+9.控制环境是否使用global site-packages:toggleglobalsitepackages
+10.复制虚拟环境：cpvirtualenv [source] [dest]
+11.退出虚拟环境：deactivate
+(env1) lin@ubuntu:~$ deactivate
+
+12.删除虚拟环境：rmvirtualenv [虚拟环境名称]
+lin@ubuntu:~$ rmvirtualenv env1
+
