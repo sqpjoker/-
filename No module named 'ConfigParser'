@@ -1,0 +1,11 @@
+ImportError: No module named 'ConfigParser'
+
+原因：
+
+在 Python 3.x 版本后，ConfigParser.py 已经更名为 configparser.py 所以出错！
+
+解决方法：
+
+找到文件 configparser ，更名为旧版本的名称 ConfigParser
+(django_py3) root@ubuntu:~/.virtualenvs/django_py3/lib/python3.5/site-packages# cp /root/.virtualenvs/django_py3/lib/python3.5/site-packages/configparser.py 
+/root/.virtualenvs/django_py3/lib/python3.5/site-packages/ConfigParser.py
