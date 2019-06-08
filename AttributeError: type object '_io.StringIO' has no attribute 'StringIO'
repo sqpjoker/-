@@ -1,0 +1,21 @@
+python2导入StringIO模块，直接：
+
+from StringIO import StringIO
+对于python3，StringIO和cStringIO模块已经没了，如果要使用的话，需要导入io模块：
+
+from io import StringIO
+dot_data = StringIO()
+你也可以导入six模块来使用StringIO:
+
+
+from six import StringIO
+或
+
+
+from sklearn.externals.six import StringIO 
+例子：对于python2和python3都兼容：
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
