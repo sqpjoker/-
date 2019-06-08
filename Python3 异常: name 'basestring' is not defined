@@ -1,0 +1,5 @@
+问题分析：
+python3 里已经没有basestring 类型，用str代替了basestring ；
+
+解决方案：
+将关键字“basestring”替换为“str”；
