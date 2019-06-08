@@ -1,0 +1,25 @@
+uWSGI实现了WSGI的所有接口，是一个快速、自我修复、开发人员和系统管理员友好的服务器
+uWSGI代码完全用C编写
+1.安装uWSGI
+pip install uwsgi
+
+2.项目部署时，需要把settings.py文件夹下的：
+DEBUG = True改为DEBUG = FALSE
+ALLOWED_HOSTS = []改为ALLOWED_HOSTS = ['*']
+
+3.配置uWSGI，在项目中新建文件uwsgi.ini，编写如下配置
+[uwsgi]
+socket=外网ip:端口（使用nginx连接时，使用socket）
+http=外网ip:端口（直接做web服务器，使用http）
+chdir=项目根目录
+wsgi-file=项目中wsgi.py文件的目录，相对于项目根目录
+processes=4
+threads=2
+master=True
+pidfile=uwsgi.pid
+daemonize=uswgi.log
+
+启动：uwsgi --ini 配置文件路径 例如：uwsgi --ini uwsgi.ini
+停止：uwsgi --stop uwsgi.pid路径 例如：uwsgi --stop uwsgi.pid
+重启：uwsgi --reload uwsgi.pid
+使用http协议查看网站运行情况，运行正常，但是静态文件无法加载
