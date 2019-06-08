@@ -1,3 +1,22 @@
+nginx
+使用nginx的作用
+负载均衡：多台服务器轮流处理请求
+反射代理：隐藏真实服务器
+实现构架：客户端请求nginx，再由nginx请求uwsgi，运行django框架下的python代码
+nginx+uwsgi也可以用于其它框架的python web代码，不限于django
+到官网下载nginx压缩文件或通过命令安装
+sudo apt-get nginx
+这里以下载压缩文件为例演示
+解压缩：
+tar zxvf nginx-1.6.3.tar.gz
+
+进入nginx-1.6.3目录依次执行如下命令进行安装：
+./configure
+make
+sudo make install
+默认安装到/usr/local/nginx目录，进入此目录执行命令
+查看版本：sudo sbin/nginx -v
+
 启动nginx
 sudo /usr/local/nginx/sbin/nginx
 重启nginx
@@ -6,6 +25,20 @@ sudo /usr/local/nginx/sbin/nginx
 ./nginx -s stop
 查看nginx运行进程
 ps aux | grep nginx
+
+/usr/local/nginx/conf
+指向uwsgi项目：编辑conf/nginx.conf文件
+vi conf/nginx.conf
+在server下添加新的location项，指向uwsgi的ip与端口
+location / {
+    include uwsgi_params;将所有的参数转到uwsgi下
+    uwsgi_pass uwsgi的ip与端口;
+}
+
+
+
+
+
 
 
 启动celery
