@@ -1,0 +1,15 @@
+ tracker.conf 
+http.server_port=8080
+Client.conf
+http.tracker_server_port=80
+
+ln -s /usr/bin/fdfs_trackerd /usr/local/bin
+ln -s /usr/bin/stop.sh /usr/local/bin
+ln -s /usr/bin/restart.sh /usr/local/bin
+service fdfs_trackerd start
+netstat -unltp|grep fdfs
+service fdfs_storaged start
+ps aux | grep fdfs
+
+
+fdfs_upload_file /etc/fdfs/client.conf /home/python/2.jpg
