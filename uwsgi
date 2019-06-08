@@ -23,3 +23,15 @@ daemonize=uswgi.log
 停止：uwsgi --stop uwsgi.pid路径 例如：uwsgi --stop uwsgi.pid
 重启：uwsgi --reload uwsgi.pid
 使用http协议查看网站运行情况，运行正常，但是静态文件无法加载
+查看uwsgi启动进程
+ps aux | grep uwsgi
+
+正常启动后：
+(django_py3) root@ubuntu:/home/python/dailyfresh# ps aux | grep uwsgi
+root       4523  0.0  2.1 176760 42696 ?        S    09:32   0:00 uwsgi --ini uwsgi.ini
+root       4525  0.0  2.4 309928 50220 ?        Sl   09:32   0:00 uwsgi --ini uwsgi.ini
+root       4526  0.0  2.5 310508 52100 ?        Sl   09:32   0:01 uwsgi --ini uwsgi.ini
+root       4527  0.0  2.4 309916 50216 ?        Sl   09:32   0:00 uwsgi --ini uwsgi.ini
+root       4528  0.0  1.7 250492 35196 ?        Sl   09:32   0:00 uwsgi --ini uwsgi.ini
+root       4529  0.0  1.6 176760 33220 ?        S    09:32   0:00 uwsgi --ini uwsgi.ini
+root       5041  0.0  0.0  15984   928 pts/4    S+   09:59   0:00 grep --color=auto uwsgi
