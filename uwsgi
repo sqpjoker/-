@@ -35,3 +35,14 @@ root       4527  0.0  2.4 309916 50216 ?        Sl   09:32   0:00 uwsgi --ini uw
 root       4528  0.0  1.7 250492 35196 ?        Sl   09:32   0:00 uwsgi --ini uwsgi.ini
 root       4529  0.0  1.6 176760 33220 ?        S    09:32   0:00 uwsgi --ini uwsgi.ini
 root       5041  0.0  0.0  15984   928 pts/4    S+   09:59   0:00 grep --color=auto uwsgi
+
+修改uwsgi.ini文件，启动socket，禁用http
+重启nginx、uwsgi
+在浏览器中查看项目，发现静态文件加载不正常，接下来解决静态文件的问题
+静态文件
+静态文件一直都找不到，现在终于可以解决了
+所有的静态文件都会由nginx处理，不会将请求转到uwsgi
+配置nginx的静态项，打开conf/nginx.conf文件，找到server，添加新location
+location /static {
+    alias  /home/python/dayfresh/static/;;
+}
