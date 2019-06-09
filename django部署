@@ -1,0 +1,37 @@
+安装python3-pip
+apt-get python3-pip
+
+更新源
+apt-get updata
+
+安装虚拟环境和虚拟环境安装包
+pip3 install virtualenv（报错的话需要把pip也安装一下）
+pip3 virtualenvwrapper
+
+ls -lha
+vi .bashrc
+在文件最下面加
+#export PATH=$PATH:/home/python/Downloads/node-v6.1.0-linux-x64/bin
+#export WORKON_HOME=$HOME/.virtualenvs
+#source /usr/local/bin/virtualenvwrapper.sh
+export WORKON_HOME=~/Envs
+source /usr/local/bin/virtualenvwrapper.sh
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+
+source .bashrc
+创建虚拟环境
+mkvirtualenv 项目名 -p /usr/bin/python3
+
+3.将windows的虚拟环境安装包响应信息导出来移动到ubuntu
+  进入windows终端的虚拟环境
+  pip freeze > requirements.txt
+  将requirements.txt从windows下移动到虚拟机
+  mv requirements.txt所在的位置 ./(当前目录)
+  pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+  (安装过程中mysqlclient会报错，按下面两步走)
+  apt-get install libmsqlclient-dev
+  pip3 install mysqlclien -i https://pypi.tuna.tsinghua.edu.cn/simple
+  
+  4.安装mysql数据库
+  apt-get install mysql-server
+  
