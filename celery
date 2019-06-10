@@ -1,0 +1,14 @@
+【celery】启动异步注册任务
+虚拟环境
+开启worker,     (退出 deactivate)
+workon df-env
+
+在项目目录下执行：cd /opt/dailyfresh-celerytasks
+celery -A celery_tasks.tasks worker -Q queue --loglevel=info
+或
+celery -A celery_tasks.tasks worker --loglevel=info
+
+在python下
+>>> from celery_tasks.tasks import generate_static_index_html
+>>> generate_static_index_html.delay()
+<AsyncResult: 8d11582b-3d24-48de-822a-8205305e54f7>
