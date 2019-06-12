@@ -1,0 +1,7 @@
+
+
+
+当所有配置好了后：
+进入虚拟环境
+进入项目目录下
+python manage.py rebuild_index
