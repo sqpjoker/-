@@ -1,0 +1,10 @@
+mysql默认隔离级别是可重复读
+要是我们想要在电商项目中提交订单时，俩个人同时提交，库存又充足情况下，不发生错误
+需要设置成读已提交级别
+就需要进行一下操作
+
+vi /etc/mysql/mysql.conf.d/mysqld.cnf
+在skip-external-locking下面添加
+transaction-isolation = READ-COMMITTED
+然后重启mysql
+service mysql restart
