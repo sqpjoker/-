@@ -1,0 +1,42 @@
+1, print
+Python3中，print从语句变为函数，所以所有的print语句需要改成print()
+
+2,on_delete
+在django 2中，models中on_delete=models.XXX不再是默认选项，需要显性指定
+
+3, reverse
+在新版本django中,这些包不再归于core，而是属于django.urls包,需要更改import路径
+
+4, MIDDLEWARE
+在新版本django中,中间件的key值由MIDDLEWARE_CLASSES变更为MIDDLEWARE
+
+5, SessionAuthenticationMiddleware
+在新版本django中SessionAuthenticationMiddleware这个中间件不需要了。
+
+6, render_to_response
+新版本django中render_to_response不建设使用，改为使用render函数。
+
+7, 从__unicode__到__str__
+新版本python后，django的models定义需要从__unicode__变更到__str_
+
+8,dict的'has_key'方法弃用
+新版python中字典的has_key方法取消，建议用”str” in dict判断
+
+9, Direct assignment to the forward side of a many-to-many set is prohibited
+新版django中，orm多对多外健不再用=等赋值,改为set方法
+
+new_list = [obj1, obj2, obj3]
+
+e.related_set = new_list ===》 e.related_set.set([obj1, obj2, obj3])
+
+10, Only byte strings can be passed to C code
+在使用PyCryptodome作AES加密解密时，注意python3里decode和encode的使用
+
+11,html输出时，byte如何转换成unicode？(网页输出是b’’)
+str(b'','utf8')可以吧BYTES转换成unicode;bytes('','utf8')反向操作
+
+12, orm migrate
+在django升级之后，makemigration重作,migrate可能需要手工增加on_delete=models.XXX
+
+13,python中virtualenv如何具有通用性？
+如果安装好新版python3解释之后，通过更改active文件中的路径,可以实现拷贝目录通用.
