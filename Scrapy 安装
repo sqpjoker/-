@@ -22,3 +22,13 @@ pip install C:\Users\victor\Downloads\Twisted-17.5.0-cp36-cp36m-win32.whl
 至此我们的twisted安装完成. 接下来我们继续安装scrapy
 
  pip install scrapy 
+
+scrapy 跟它的相关包到这已经安装完成,我们现在只缺少pywin32的包.
+
+同样这个包不能直接通过pip install pywin32 来完成
+
+,我们需要到官网上下载它的whl文件.
+
+https://pypi.python.org/pypi/pypiwin32/220
+
+下载对应的版本后,跟twisted的安装方法一样,将pywin32安装完成.
