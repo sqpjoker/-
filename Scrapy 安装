@@ -1,0 +1,24 @@
+采用安装whl的方式来下对应的twisted.
+
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted
+
+在上面的链接中我们找到对应的python版本,我的版本是win32,所以需要:
+
+Twisted‑17.5.0‑cp36‑cp36m‑win32.whl
+
+如果是64bit的话 需要:
+
+Twisted‑17.5.0‑cp36‑cp36m‑win_amd64.whl
+
+在安装Twisted之前我们需要安装wheel,这样我们才能安装whl.
+
+pip install wheel 
+
+我这里wheel已经安装好了,如果缺少的需要安装.
+
+我们把刚才下载对应的twisted版本,通过whl方式来安装.
+
+pip install C:\Users\victor\Downloads\Twisted-17.5.0-cp36-cp36m-win32.whl 
+至此我们的twisted安装完成. 接下来我们继续安装scrapy
+
+ pip install scrapy 
