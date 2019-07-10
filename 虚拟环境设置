@@ -1,0 +1,4 @@
+virtualenv -p python2 venv
+cd venv
+cd Scripts
+activate
