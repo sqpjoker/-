@@ -1,0 +1,3 @@
+到redis路径
+
+运行命令: redis-server redis.windows.conf
