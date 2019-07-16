@@ -1,4 +1,3 @@
 virtualenv -p python2 venv
-cd venv
-cd Scripts
+cd venv/Scripts
 activate
