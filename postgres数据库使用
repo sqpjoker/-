@@ -3,13 +3,16 @@ $ su - postgres
 
 登录数据库
 -bash-4.2$ psql
-
-
 切换数据库：\c [database_name]
 
 切换用户：\c - [user_name]
 
+psql -d netmon -U netmon -h 127.0.0.1
 
+\l 查看数据库
+\c 使用数据库
+\d 查看表
+\d 表名：查看表结构p
 
 
 
