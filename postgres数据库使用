@@ -29,3 +29,9 @@ Type "help" for help.
 postgres=# \c netmon
 You are now connected to database "netmon" as user "postgres".
 netmon=#
+
+
+查看历史记录命令
+history |grep system
+重启postgresql
+systemctl restart postgresql-10
