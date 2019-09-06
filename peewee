@@ -1,0 +1,19 @@
+IGPEvents_info = IGPEvents.select(IGPEvents.id, IGPEvents.event_name, IGPEvents.action_type,
+                                              fn.to_char(IGPEvents.create_time, 'YYYY/MM/DD HH:MM:SS').alias('create_time'))
+                                              .where(fn.to_char(IGPEvents.create_time, 'YYYY-MM-DD') == now.strftime('%Y-%m-%d'))
+BGPEvents_info = BGPEvents.select(BGPEvents.id, BGPEvents.event_name, BGPEvents.action_type,
+                                        fn.to_char(BGPEvents.create_time, 'YYYY/MM/DD HH:MM:SS').alias('create_time'))
+                                        .where(fn.to_char(BGPEvents.create_time, 'YYYY-MM-DD') == now.strftime('%Y-%m-%d'))
+Events_info = IGPEvents_info.union_all(BGPEvents_info).dicts()
+将两个查询结果集组合成一个大的结果集，字段长度必须一致
+
+start_igp_events = IGPEvents.alias()
+active_igp_events = start_igp_events.select().where(
+    fn.to_char(start_igp_events.create_time, 'YYYY-MM-DD') == now.strftime('%Y-%m-%d'),
+    start_igp_events.is_alarm == 1)
+make_igp_events = active_igp_events.alias('jq')
+end_igp_events = IGPEvents.select(IGPEvents.event_name, fn.count(IGPEvents.id).alias('all'),
+                                  fn.count(make_igp_events.c.id).alias('other')).join(make_igp_events,JOIN.LEFT_OUTER, 
+                                  on=(IGPEvents.id == make_igp_events.c.id)).group_by(IGPEvents.event_name).dicts()
+当将两个查询条件不一样，字段名一样，但是不等长，一个数据集长一部分，将两个数据集组合在一个，但是效果是往字段后面加一个查询集的字段，上面那个是增加数据集
+数量，短的数据集合并在一起是，字段数据为0
