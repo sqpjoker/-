@@ -12,3 +12,11 @@ celery -A celery_tasks.tasks worker --loglevel=info
 >>> from celery_tasks.tasks import generate_static_index_html
 >>> generate_static_index_html.delay()
 <AsyncResult: 8d11582b-3d24-48de-822a-8205305e54f7>
+
+
+
+flask使用celery
+import celery
+worker = celery.Celery('celery_name',
+                       backend = 'redis://{}:{}/'.format(REDIS.REDIS_HOST, REDIS.REDIS_PORT),
+                       broker = 'redis://{}:{}/'.format(REDIS.REDIS_HOST, REDIS.REDIS_PORT))
