@@ -1,0 +1,36 @@
+# Redis 订阅者
+def subscription():
+    # 定义主题
+    topics = ['node']
+
+    # 连接redis
+    try:
+        redis_connection = redis.Redis(host=REDIS.REDIS_HOST, port=REDIS.REDIS_PORT, db=REDIS.REDIS_DB)
+    except Exception,e:
+        logger.error('Redis connection failed. [%s]' % e.message)
+        return False
+    else:
+        logger.info('Redis connnection success %s:%s/%s' % (REDIS.REDIS_HOST,REDIS.REDIS_PORT,REDIS.REDIS_DB))
+
+        # 消息订阅
+        channel = redis_connection.pubsub()
+        # 从发布端订阅消息
+        # Topic
+        '''
+           node
+        '''
+        # 订阅主题
+        channel.subscribe(topics)
+        # 监听状态：有消息发布了就拿过来
+        for message in channel.listen():
+            logger.debug('Channel message is %s' % message['data'])
+            # redis订购会先发1 2 3 数字，防止程序报错，对1 2 3 数字过滤
+            if message['data'] not in [1,2,3,4,5,6]:
+                # 获取订阅数据
+                datas = eval(message['data'])
+                if message['channel'] == 'node':
+                    Node(datas)
+                    time.sleep(0.2)
+
+if __name__ == '__main__':
+    subscription()
