@@ -1,0 +1,22 @@
+from flask_peewee.rest import RestAPI, RestResource, UserAuthentication
+from flask_peewee.auth import Auth
+from flask_peewee.db import Database as DBS
+from app import app
+from models import *
+
+# RESTful 认证设置
+database = DBS(app)
+auth = Auth(app, database)
+user_auth = UserAuthentication(auth)
+
+#  restful注册时添加的额外功能：paginate_by：能显示的数据条数
+class NodeRestResource(RestResource):
+    paginate_by = 1000
+
+
+# RESTful API Register
+
+api = RestAPI(app, default_auth=user_auth)
+api.register(NodeHistory)
+api.register(Node, NodeRestResource)
+api.setup()
