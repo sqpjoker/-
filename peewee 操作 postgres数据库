@@ -39,3 +39,9 @@ RouterHistory_info = RouterHistory.select(
 time_bucket的作用：能以某分，某秒，或者几分几秒作为分段条件
 注意：别名必须是.alias("interval")，
 分组的时候使用该函数，但是不能使用别名
+
+
+
+alias
+想用一个表的查询结果作为一个对象然后和该表的另一个查询相关联，可以在查询对象的最后加上.alias('别名'),
+然后下面直接join()这个表名就可以做到相关联了
