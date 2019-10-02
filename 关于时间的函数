@@ -1,0 +1,235 @@
+dadetime
+
+一：
+#  当前时间
+now = datetime.datetime.now()
+print(now)
+#2019-10-02 18:42:28.576706
+print(type(now))
+#<class 'datetime.datetime'>
+#  获取当天
+datetime.date.today()
+#  获取明天
+datetime.date.today() + datetime.timedelta(days=1)
+#  获取前n天
+datetime.datetime.now() - datetime.timedelta(days=3)
+#  获取当天开始时间和结束时间
+datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+#datetime.datetime(2015, 1, 12, 0, 0)
+datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+#datetime.datetime(2015, 1, 12, 23, 59, 59, 999999)
+
+
+二：
+#  获取两个datetime的时间差
+(datetime.datetime(2015,1,13,12,0,0) - datetime.datetime.now()).total_seconds()
+#44747.768075
+#  获取本周最后一天
+today = datetime.date.today()
+sunday = today + datetime.timedelta(6 - today.weekday())
+print(sunday)
+#2019-10-06
+print(type(sunday))
+#<class 'datetime.date'>
+#  获取本月的最后一天
+import calendar
+today = datetime.date.today()
+_, last_day_num = calendar.monthrange(today.year, today.month)
+last_day = datetime.date(today.year, today.month, last_day_num)
+print(last_day)
+#datetime.date(2019, 10, 31)
+#  获取上月的最后一天
+import datetime
+today = datetime.date.today()
+first = datetime.date(day=1, month=today.month, year=today.year)
+lastMonth = first - datetime.timedelta(days=1)
+print(lastMonth)
+#2019-09-30
+
+
+三：
+#  把 “指定格式的时间字符串”  转换为“datetime对象”
+now = '2019-10-02 18:45:38'
+print(type(datetime.datetime.strptime(now, "%Y-%m-%d %H:%M:%S"))
+#<class 'datetime.datetime'>
+# 把“datetime对象”  转换为   “指定格式的时间字符串”
+now = datetime.datetime.now()
+print(datetime.datetime.strftime(now, "%Y/%m/%d  %H:%M:%S"))
+#2019/10/02  18:50:30
+#  关系转化例子
+datetime -> string
+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+#'2015-01-12 23:13:08'
+string -> datetime
+datetime.datetime.strptime("2014-12-31 18:20:10", "%Y-%m-%d %H:%M:%S")
+#datetime.datetime(2014, 12, 31, 18, 20, 10)
+datetime -> timetuple
+datetime.datetime.now().timetuple()
+#time.struct_time(tm_year=2015, tm_mon=1, tm_mday=12, tm_hour=23, tm_min=17, tm_sec=59, tm_wday=0, tm_yday=12, tm_isdst=-1)
+timetuple -> datetime
+#timetuple => timestamp => datetime [看后面datetime<=>timestamp]
+datetime -> date
+datetime.datetime.now().date()
+#datetime.date(2015, 1, 12)
+date -> datetime
+timestamp = time.mktime(now.timetuple())
+#1421077403.0
+timestamp -> datetime
+#datetime.datetime(2015, 1, 12, 23, 43, 23)
+
+
+time
+
+#  当前时间戳
+time.time()
+#1570013546.4105797
+
+print(time.localtime())
+#time.struct_time(tm_year=2019, tm_mon=10, tm_mday=2, tm_hour=18, tm_min=55, tm_sec=44, tm_wday=2, tm_yday=275, tm_isdst=0)
+
+print(type(time.localtime()))
+#<class 'time.struct_time'>
+
+#  把时间（time.struct_time）转换成指定格式的字符串
+time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())       
+#2019-10-02 18:53:08
+
+#  把时间戳转换为指定格式字符串
+time.strftime('%Y%m%d%H%M%S', time.localtime(1529653382.830719))
+
+
+
+
+
+
+转化函数
+# 根据传进来的时间类型，比如日，周，月。和开始时间返回两个时间以小时或者天分段的datetime,字符串类型数组
+def polyline_time_lists(data_type, start_time):
+    """
+
+    :param data_type: 时间类型  'day'，'week','mouth'
+    :param start_time: 开始时间  '字符串类型'
+    :return:
+    time_format: [datetime.datetime(2019, 9, 23, 0, 0), datetime.datetime(2019, 9, 24, 0, 0), datetime.datetime(2019, 9, 25, 0, 0), datetime.datetime(2019, 9, 26, 0, 0), datetime.datetime(2019, 9, 27, 0, 0), datetime.datetime(2019, 9, 28, 0, 0), datetime.datetime(2019, 9, 29, 0, 0)],
+    time_format_info: ['2019/09/23', '2019/09/24', '2019/09/25', '2019/09/26', '2019/09/27', '2019/09/28', '2019/09/29']
+    """
+    time_format = []
+    time_format_info = []
+    # 如果时间类型为年月
+    if data_type == 'mouth':
+        if start_time.split(' ')[0].split('-')[1][0] == 0:
+            data_time_mouth = start_time.split(' ')[0].split('-')[1][1]
+        else:
+            data_time_mouth = start_time.split(' ')[0].split('-')[1]
+        data_sum = calendar.monthrange(int(start_time.split(' ')[0].split('-')[0]), int(data_time_mouth))[1]
+
+        for row in range(1, data_sum + 1):
+            time_hours = start_time.split(' ')[0].replace('-01', '') + '-' + str(row)
+            time_format.append(datetime.datetime.strptime(time_hours, '%Y-%m-%d'))
+            time_format_info.append(datetime.datetime.strptime(time_hours, '%Y-%m-%d').strftime('%Y/%m/%d'))
+
+    # 如果时间类型为年月日
+    if data_type == 'day':
+        for row in range(0, 24):
+            time_hours = '%s %02d' % (start_time.split(' ')[0], row)
+            time_format.append(datetime.datetime.strptime(time_hours, '%Y-%m-%d %H'))
+            time_format_info.append(datetime.datetime.strptime(time_hours, '%Y-%m-%d %H').strftime('%Y/%m/%d %H') + '时')
+
+    # 如果时间类型为年周
+    if data_type == 'week':
+        for row in range(0, 7):
+            time_week_start = (datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(
+                days=row)).strftime("%Y/%m/%d")
+            time_week_start_two = (datetime.datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(
+                days=row))
+            time_format.append(time_week_start_two)
+            time_format_info.append(time_week_start)
+            # time_format_info.append(time_week_start.strftime('%Y/%m/%d'))
+    return time_format, time_format_info
+    
+    
+    
+    # 获取一个准确时间的时间段起始时间和结束时间
+def accord_time(data_time):
+    if isinstance(data_time, list):
+        start_time = data_time[0]
+        end_time = data_time[1]
+        start_time = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M')
+        end_time = datetime.datetime.strptime(end_time, '%Y-%m-%d %H:%M')
+    else:
+        data_time_split = data_time.split("-")
+        # 如果时间为年月日
+        if len(data_time_split) == 3:
+            start_end_time = datetime.date(*map(int, data_time.split('-')))
+            start_time, end_time = get_start_end_time(start_end_time, start_end_time)
+        elif len(data_time_split) == 2:
+            # 如果时间为年月
+            if len(data_time) == 7:
+                mouth_time = get_mouth(data_time_split[1])
+                start_time, end_time = getFirstAndLastDay(int(data_time_split[0]), int(mouth_time))
+                start_time, end_time = get_start_end_time(start_time, end_time)
+            else:
+                week_start, week_end = getfirstday(data_time)
+                start_time, end_time = get_start_end_time(week_start, week_end)
+        start_time = start_time.strftime('%Y-%m-%d %H:%M:%S')
+        end_time = end_time.strftime('%Y-%m-%d %H:%M:%S')
+    return start_time, end_time
+
+
+# 根据传入周数得出该周星期一日期
+def getfirstday(weekflag):
+    yearnum = weekflag[0:4]  # 取到年份
+    if len(weekflag) == 8:
+        weeknum = weekflag[5:6]
+    else:
+        weeknum = weekflag[5:7]  # 取到周
+    stryearstart = yearnum + '0101'  # 当年第一天
+    yearstart = datetime.datetime.strptime(stryearstart, '%Y%m%d')  # 格式化为日期格式
+    yearstartcalendarmsg = yearstart.isocalendar()  # 当年第一天的周信息
+    yearstartweek = yearstartcalendarmsg[1]
+    yearstartweekday = yearstartcalendarmsg[2]
+    yearstartyear = yearstartcalendarmsg[0]
+    if yearstartyear < int(yearnum):
+        daydelat = (8 - int(yearstartweekday)) + (int(weeknum) - 1) * 7
+    else:
+        daydelat = (8 - int(yearstartweekday)) + (int(weeknum) - 2) * 7
+    week_start = (yearstart + datetime.timedelta(days=daydelat)).date()
+    week_end = week_start + datetime.timedelta(days=6)
+    # return datetime.datetime.combine(week_start, datetime.time.min), datetime.datetime.combine(week_end, datetime.time.max)
+    return week_start, week_end
+
+
+# 获取第一天和最后一天
+def getFirstAndLastDay(year, month):
+    # 获取当前月的第一天的星期和当月总天数
+    weekDay, monthCountDay = calendar.monthrange(year, month)
+    # 获取当前月份第一天
+    firstDay = datetime.date(year, month, day=1)
+    # 获取当前月份最后一天
+    lastDay = datetime.date(year, month, day=monthCountDay)
+    # 返回第一天和最后一天
+    # a = datetime.datetime.combine(firstDay, datetime.time.min)
+    # b = datetime.datetime.combine(lastDay, datetime.time.max)
+    return firstDay, lastDay
+
+
+# 获取指定天数的起始时间和截止时间
+def get_start_end_time(start_day, end_day):
+    start_time = datetime.datetime.combine(start_day, datetime.time.min)
+    end_time = datetime.datetime.combine(end_day, datetime.time.max)
+    return start_time, end_time
+
+
+# 根据方法要求月份必须是1-12,不能是01-09类型，去掉0
+def get_mouth(mouth_info):
+    if mouth_info[0] == "0":
+        return mouth_info[1]
+    else:
+        return mouth_info
+        
+        
+#   直接调用start_time, end_time = accord_time(data_time)，
+传入的datetime形式为'2019-09', '2019-20th','2019-09-21',返回一个字符串类型的起始时间和结束时间
+time_layout = "1 h"
+data_type = 'day'
+data_time_format, time_format_info = polyline_time_lists(data_type, start_time)
