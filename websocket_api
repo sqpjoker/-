@@ -1,0 +1,16 @@
+
+通过emit发送socket消息
+from flask_socketio import emit
+
+if request.headers['Content-Type'] == 'application/json':
+    postData = request.json
+    emit('status', postData, broadcast=True, namespace='/task_status')
+
+falsk中配置socket
+app = Flask(__name__)
+# WebSocket 配置
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
+
+#开启socket服务
+socketio.run(app, host='0.0.0.0', port=端口,debug=True)
