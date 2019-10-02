@@ -26,3 +26,16 @@ end_igp_events = IGPEvents.select(IGPEvents.event_name, fn.count(IGPEvents.id).a
                                   on=(IGPEvents.id == make_igp_events.c.id)).group_by(IGPEvents.event_name).dicts()
 当将两个查询条件不一样，字段名一样，但是不等长，一个数据集长一部分，将两个数据集组合在一个，但是效果是往字段后面加一个查询集的字段，上面那个是增加数据集
 数量，短的数据集合并在一起是，字段数据为0
+
+
+
+time_bucket
+postgres的扩展库
+RouterHistory_info = RouterHistory.select(
+            fn.time_bucket(time_layout, RouterHistory.create_time).alias("interval"),
+            fn.Count(RouterHistory.create_time).alias('count')) \
+            .group_by(fn.time_bucket(time_layout, RouterHistory.create_time)) \
+            .dicts()
+time_bucket的作用：能以某分，某秒，或者几分几秒作为分段条件
+注意：别名必须是.alias("interval")，
+分组的时候使用该函数，但是不能使用别名
