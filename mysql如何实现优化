@@ -56,9 +56,9 @@ set long_query_time=1;--但是重启mysql过后，long_query_time依然是my.ini
 --如何将慢查询定位到日志中
 在默认情况下，mysql不会记录慢查询，需要在启动mysql的时候，指定慢查询才可以，
 bin\mysqld.exe --safe-mode --slow-query-log [mysql5.5 可以在my.inin指定]
-(安全模式启动，数据库将操作写入日志，以备恢复)
+(安全模式启动，数据库将操作写入日志，以备恢复)（bin\不用输入）
 bin\mysqld.exe -log-slow-queries=d:/abc.log[低版本mysql5.0可以在my.ini指定]
-先在服务中关闭mysql，再启动,如果启动了慢查询日志，默认把这个文件放在my.ini
+先在服务中关闭mysql，在cmd以安全模式加日志再启动,如果启动了慢查询日志，默认把这个文件放在my.ini
 文件中记录的位置
 #path to the database root
-datadir='
+datadir='datadir=D:\mysql\mysql-5.6.38-winx64\mysql-5.6.38-winx64\data'
