@@ -7,3 +7,58 @@
 7.mysql服务器升级
 8.随时清理碎片化
 9.sql语句调优(最重要)
+
+
+
+
+
+
+分库分表
+什么时候分库
+电商项目将一个项目进行拆分，每一个小的项目有自己的单独数据库。
+互不影响---垂直分割 会员数据库，订单数据库，支付宝数据库
+-------------------------------------------------------
+什么时候分表
+水平分割 分表 更具业务需求 存放日志（每年存放） 更具年份表，
+腾讯QQ号 位数（缺点），不均匀
+
+6条数据放在3张表中，怎么非常均匀 取模算法
+id作为递增唯一标识符，id数除以分表数取余，余数就作为放在存放在哪张表的基准
+
+
+
+
+
+************************************************************************************
+什么是慢查询？
+mysql默认慢查询时间为10s，超过该时间默认为慢查询
+慢查询都会有日志存放，我们可以在执行完语句过后到日志中查看哪条语句是慢查询
+
+show status
+使用show status 查看mysql服务器状态信息
+常用命令
+--mysql数据库启动了多少时间
+show status like 'uptime';
+--显示数据库的查询，更新，添加，删除的次数
+show status like 'com_select' 类推'com_insert' 'com_update' 'com_delete'
+--如果不写[session|global】默认是session会话,指取出当前窗口的执行，如果你想看
+所有（从mysql启动到现在,则应该是global）
+show [session|global] status like
+--显示到mysql数据库的连接数
+show status like 'connections';
+--显示慢查询次数
+show staus like 'slow_queries';
+--查询慢查询时间
+show variables like 'long_query_time';
+--修改慢查询时间
+set long_query_time=1;--但是重启mysql过后，long_query_time依然是my.ini的值
+
+--如何将慢查询定位到日志中
+在默认情况下，mysql不会记录慢查询，需要在启动mysql的时候，指定慢查询才可以，
+bin\mysqld.exe --safe-mode --slow-query-log [mysql5.5 可以在my.inin指定]
+(安全模式启动，数据库将操作写入日志，以备恢复)
+bin\mysqld.exe -log-slow-queries=d:/abc.log[低版本mysql5.0可以在my.ini指定]
+先在服务中关闭mysql，再启动,如果启动了慢查询日志，默认把这个文件放在my.ini
+文件中记录的位置
+#path to the database root
+datadir='
