@@ -173,6 +173,8 @@ alter table user add index my_index (id,name);
 7.select * from user >= 100;
 select * from user > 100;
 尽量不要使用>=，大于会使用一次全表扫描，等于还会使用一次全表扫描
+8.in 或者not in会让索引失去效果，使用全表扫描
+9.查询量比较大的时候，使用缓存，分表，分页
 
 
 
@@ -193,5 +195,23 @@ select * from user left join orders on user.num=orders.num;[左外连接更好]
 都是占用100个字符的空间，如果是varchar这种变长字段，null不占用空间
 可以在num上设置默认值0，确保表中num列没有null，然后这样查询
 比如：select * from t where num =0
+
+
+
+******************************************************************************************************
+MYSQL 数据引擎
+使用的存储引擎 myisam/innodb/memory
+myisam 存储：如果表对事务要求不高，同时以查询和添加为主的，考虑使用myisam存储引擎，
+比如bbs中的发帖表，回复表
+innodb 存储：对事务要求比较高，保存的数据都是重要数据，建议使用innodb，比如订单表，账号表
+myisam和innodb的区别
+1.事务安全（myisam不支持事务，innodb支持事务）
+2.查询和添加速度（myisam批量插入速度快）
+3.支持全文索引（myisam支持全文索引，innodb不支持全文索引）
+ 现在的主流还是innodb,它支持事务，能保持数据的一致性
+ 锁机制：innodb行锁  myisam表锁
+ 
+ 清理myisam引擎的碎片化
+ optimize table 表名;
 
 
