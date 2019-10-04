@@ -141,3 +141,57 @@ key代表索引的类型，rows代表索引的行数
 
 
 
+
+*********************************************************************
+索引优缺点
+优点：提高程序效率
+缺点：增加，删除慢，因为索引文件需要更新，增加内存
+
+什么字段适合加索引
+select * from user where sex='男'; 
+---不需要，因为sex只有两种类型
+select * from user where id=11;
+---需要，因为查询次数比较多，值不同
+建立索引where条件需要查询，并且值非常多不同，
+唯一几个值，不需要建立索引
+
+索引注意事项：
+---创建组合索引
+alter table user add index my_index (id,name);
+1.如果使用组合索引
+第一个可以不用第二个一起作为条件查询--会使用组合索引进行查找
+使用第二个条件，不使用第一个条件--不会使用组合索引进行查找
+使用第一个和第二个条件一起查找，使用索引进行查找
+2.条件加like的效果
+使用索引的时候，不要like '%%'否则使用全表扫描
+使用like '%'，百分号在前,不会使用索引查找,
+使用like '   %',百分号在后,会使用索引查找
+3.使用or,条件都必须加上索引，只要有一个条件不加索引，不会使用索引查找
+4.判断是否为null，使用is null，会使用索引查询，使用=null,不会使用索引查询
+5.group by 分组不会使用索引，全表扫描
+6.分组需要效率高，禁止排序，order by null
+7.select * from user >= 100;
+select * from user > 100;
+尽量不要使用>=，大于会使用一次全表扫描，等于还会使用一次全表扫描
+
+
+
+
+*********************************************************************************
+SQL 优化技巧
+1.使用group by 分组查询时，默认分组后，还会排序，可能会降低速度，在group by后面增加order by null 就可以防止排序
+explain select * from user group by name order by null
+2.有些情况下，可以使用连接来代替子查询，因为使用join，mysql不需要在内存中创建临时表
+select * from user,orders where user.num=orders.num[简单处理方式]
+select * from user left join orders on user.num=orders.num;[左外连接更好]
+3.对查询进行优化，要尽量避免全表扫描，首先应考虑在where及order by涉及到的列上建立索引
+应尽量避免在where子句中对字段进行null值判断,否则将导致引擎放弃使用索引而是进行全表扫描，
+比如select * from t wherer num is null
+最好不要给数据库留null，尽可能使用not null填充数据库
+备注，描述，评论之类的设置可以设置为null，其他的，最好不要使用null
+不要以为null不需要空间，比如char(100)型,在字段建立时，空间就固定了，不管是否插入值（null也包含在内）
+都是占用100个字符的空间，如果是varchar这种变长字段，null不占用空间
+可以在num上设置默认值0，确保表中num列没有null，然后这样查询
+比如：select * from t where num =0
+
+
