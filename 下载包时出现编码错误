@@ -1,0 +1,2 @@
+进入虚拟环境包的lib下的site-packages下的pip下的compat下的__init__文件，
+进入这个文件，找到大概75行，return s.decode('utf-8')改成return s.decode('gbk')
