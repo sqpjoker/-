@@ -1,0 +1,13 @@
+pip install django-cors-headers 
+
+把设置加到setting的apps中：
+INSTALLED_APPS = [
+  'corsheaders'
+ ]
+ 
+ 然后在设置中加入
+ MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',#这个放在最上面
+    'django.middleware.common.CommonMiddleware',
+ ]
+ CORS_ORIGIN_ALLOW_ALL = True
